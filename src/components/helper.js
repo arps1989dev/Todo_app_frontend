@@ -10,7 +10,14 @@ export function isLoggedIn() {
   }
 }
 
+
 export function apiHeader() {
+  return {
+    headers: apiCustomHeader()
+  };
+}
+
+export function apiCustomHeader() {
   return {
     Authorization: 'bearer ' + authToken(),
     'Content-Type': 'application/json'
