@@ -9,7 +9,7 @@ import {
 } from 'react-bootstrap';
 
 import {Redirect} from 'react-router-dom';
-import {isLoggedIn} from '../helper';
+import {isLoggedIn} from '../Helper';
 import {LoginService} from '../../services/users/Auth';
 
 export default class Login extends Component {
@@ -32,32 +32,40 @@ export default class Login extends Component {
     return initialState;
   }
 
+
   handleChange(e) {
     const loginForm = this.state.loginForm;
     var key = e.target.name;
     loginForm[key] = e.target.value;
-    this.setState({loginForm});
+    this.setState({
+      loginForm
+    });
   }
 
-  handleSignin(event) {
+  handleLogin(event) {
     var self = this;
-		LoginService(self.state.loginForm)
-			.then(function (response) {
-			console.log(response);
-      self.handelResponse(response);
-    })
-		.catch(function (error) {
-			debugger
-        // alert(error.response.data.error);
-        self.setState({errors: error});
+
+    LoginService(self.state.loginForm)
+      .then(function(response) {
+        console.log(response);
+        self.handelResponse(response);
+      })
+      .catch(function(error) {
+        alert(error.response.data.error);
+        self.setState({ errors: error.response.data.errors });
       });
   }
 
   handelResponse(response) {
+    console.log("hello")
+    console.log(response)
     if (response.status === 200) {
       localStorage.setItem('AUTH_TOKEN', response.data.data.token.access_token);
-      localStorage.setItem('CURRENT_USER', JSON.stringify(response.data.data.user));
-      this.setState({redirectToReferrer: true});
+      localStorage.setItem(
+        'CURRENT_USER',
+        JSON.stringify(response.data.data.user)
+      );
+      this.setState({ redirectToReferrer: true });
     } else {
       console.log('Invalid email and password');
       alert('Invalid email and password');
@@ -73,6 +81,7 @@ export default class Login extends Component {
         <Grid className="page-inner-wrap">
           <Row>
             <Col xs={10} sm={6} className="login-form">
+             
               <Col xs={12} sm={10} md={8} className="login-details-block">
                 <FormGroup className="custom-fromgrp">
                   <FormControl
@@ -81,9 +90,8 @@ export default class Login extends Component {
                     placeholder="Email"
                     label="email"
                     name="email"
-                    onChange={this
-                    .handleChange
-                    .bind(this)}/>
+                    onChange={this.handleChange.bind(this)}
+                  />
                   <span className="custom-addon">*</span>
                 </FormGroup>
                 <FormGroup className="custom-fromgrp">
@@ -93,22 +101,21 @@ export default class Login extends Component {
                     placeholder="Password"
                     label="password"
                     name="password"
-                    onChange={this
-                    .handleChange
-                    .bind(this)}/>
+                    onChange={this.handleChange.bind(this)}
+                  />
                   <span className="custom-addon">*</span>
                 </FormGroup>
               </Col>
               <Button
                 className="btn-orange login-btn text-center"
-                onClick={event => this.handleSignin(event)}>
+                onClick={event => this.handleLogin(event)}
+              >
                 LOGIN
               </Button>
             </Col>
           </Row>
         </Grid>
       </div>
-
     );
   }
 }

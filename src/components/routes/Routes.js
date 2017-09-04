@@ -4,11 +4,11 @@ import asyncComponent from '../AsyncComponent';
 // import { isLoggedIn } from '../helper';
 
 const BeforeLoginLayout = asyncComponent(() => import ('../layout/BeforeLoginLayout'));
-// const Login = asyncComponent(() => import ('../users/Login'));
+const Login = asyncComponent(() => import ('../users/Login'));
 const Todo = asyncComponent(() => import('../Todo'));
 const routes = () => (
   <Switch>
-    <BeforeLoginLayout exact path="/" component={Todo}/> 
+    <BeforeLoginLayout exact path="/" component={Login}/> 
     <BeforeLoginLayout exact path="/todos" component={Todo} />
   </Switch>
 );

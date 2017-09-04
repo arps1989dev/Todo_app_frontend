@@ -4,6 +4,7 @@ import {Navbar, Nav, NavItem} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap';
 
 import {LogoutService} from '../services/users/Auth';
+import {currentUser} from './Helper';
 
 export default class Header extends Component {
   constructor(props) {
@@ -16,7 +17,9 @@ export default class Header extends Component {
 
   handleLogout(event) {
     var self = this;
-    LogoutService({id: ''}).then(function (response) {
+    LogoutService({
+        user_id: currentUser().id
+      }).then(function (response) {
       self.handleResponse(response);
     });
   }
@@ -30,7 +33,7 @@ export default class Header extends Component {
 
   render() {
     if (this.state.redirectToReferrer) {
-      return <Redirect push to="/user"/>;
+      return <Redirect push to="/"/>;
     }
 
     return (
@@ -44,6 +47,7 @@ export default class Header extends Component {
 
         <Navbar.Toggle/>
         <Navbar.Collapse>
+
           <Nav>
             <LinkContainer to="/Todo">
               <NavItem eventKey={4}>Todo</NavItem>
@@ -54,6 +58,9 @@ export default class Header extends Component {
           <Nav pullRight>
             <NavItem eventKey={1} href="#">Login</NavItem>
             <NavItem eventKey={2} href="#"></NavItem>
+            <NavItem onClick={event => this.handleLogout(event)}>
+              Logout
+            </NavItem>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

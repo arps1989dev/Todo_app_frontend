@@ -6,7 +6,7 @@ export default class Todo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      todo: []
+      todos: []
     };
   }
 
@@ -16,13 +16,13 @@ export default class Todo extends Component {
     getTodo().then(function (response) {
       console.log(response)
       if (response.status === 200) {
-        self.setState({todo: response.data.data.todo})
+        self.setState({todos: response.data.data.todos})
       }
     });
   }
 
   render() {
-    const todo = this.state.todo;
+    const {todos} = this.state;
     return (
       <div>
         <Grid>
@@ -32,13 +32,10 @@ export default class Todo extends Component {
             </PageHeader>
           </Col>
           <Col xs={12} sm={8}>
-          hello
-          {todo.map((todo) => 
-            <Col xs={12}>
-            hello
+            {todos.map(todo =>
+            <Col xs={12} key={todo.id}>
               <h3>{todo.title}</h3>
-            </Col>
-          )}
+            </Col>)}
           </Col>
         </Grid>
       </div>

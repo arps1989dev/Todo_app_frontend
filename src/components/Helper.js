@@ -23,3 +23,8 @@ export function apiCustomHeader() {
     'Content-Type': 'application/json'
   };
 }
+
+
+export function currentUser() {
+  return JSON.parse(localStorage.getItem('CURRENT_USER'));
+}
