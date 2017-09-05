@@ -28,3 +28,17 @@ export function apiCustomHeader() {
 export function currentUser() {
   return JSON.parse(localStorage.getItem('CURRENT_USER'));
 }
+
+
+export function isObjectEmpty(object) {
+  return Object.getOwnPropertyNames(object).length === 0;
+}
+
+
+export function str2bool(value) {
+  if (value && typeof value === 'string') {
+    if (value.toLowerCase() === 'true') return true;
+    if (value.toLowerCase() === 'false') return false;
+  }
+  return value;
+}

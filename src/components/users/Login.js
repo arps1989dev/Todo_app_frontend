@@ -8,6 +8,8 @@ import {
   FormGroup
 } from 'react-bootstrap';
 
+import '../../assets/css/user/login.css';
+
 import {Redirect} from 'react-router-dom';
 import {isLoggedIn} from '../Helper';
 import {LoginService} from '../../services/users/Auth';
@@ -47,7 +49,6 @@ export default class Login extends Component {
 
     LoginService(self.state.loginForm)
       .then(function(response) {
-        console.log(response);
         self.handelResponse(response);
       })
       .catch(function(error) {
@@ -57,9 +58,8 @@ export default class Login extends Component {
   }
 
   handelResponse(response) {
-    console.log("hello")
-    console.log(response)
     if (response.status === 200) {
+      console.log(response)
       localStorage.setItem('AUTH_TOKEN', response.data.data.token.access_token);
       localStorage.setItem(
         'CURRENT_USER',
