@@ -8,6 +8,7 @@ const AfterLoginLayout = asyncComponent(() => import ('../layout/user/AfterLogin
 const LoginLayout = asyncComponent(() => import ('../layout/user/LoginLayout'));
 const Login = asyncComponent(() => import ('../users/Login'));
 const Todo = asyncComponent(() => import ('../users/todo/Todo.jsx'));
+const Item = asyncComponent(() => import ('../users/item/Item.jsx'));
 const Home = asyncComponent(() => import ('../Home'));
 const routes = () => (
   <Switch>
@@ -15,6 +16,7 @@ const routes = () => (
     <LoginLayout exact path="/user" component={Login}/>
     <AfterLoginLayout>
       <PrivateRoute exact path="/todos" component={Todo}/>
+      <PrivateRoute exact path="/items" component={Item}/>
     </AfterLoginLayout>
 
   </Switch>

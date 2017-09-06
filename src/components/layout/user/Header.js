@@ -5,7 +5,7 @@ import {Link, Redirect} from 'react-router-dom';
 import {LinkContainer} from 'react-router-bootstrap';
 
 import {LogoutService} from '../../../services/users/Auth';
-import {currentUser} from '../../Helper';
+import {authToken} from '../../Helper';
 
 export default class Header extends Component {
   constructor(props) {
@@ -19,9 +19,7 @@ export default class Header extends Component {
   handleLogout(event) {
     var self = this;
     console.log(self);
-    LogoutService({
-        user_id: currentUser().id
-      }).then(function (response) {
+    LogoutService({token: authToken()}).then(function (response) {
       self.handleResponse(response);
     });
   }
@@ -56,8 +54,9 @@ export default class Header extends Component {
             <LinkContainer to="/todos">
               <NavItem eventKey={4}>Todo</NavItem>
             </LinkContainer>
-
-            <NavItem eventKey={2} href="#">Item</NavItem>
+            <LinkContainer to="/items">
+              <NavItem eventKey={4}>Item</NavItem>
+            </LinkContainer>
           </Nav>
           <Nav pullRight>
 

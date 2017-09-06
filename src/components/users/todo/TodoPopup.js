@@ -9,7 +9,7 @@ import {
 } from 'react-bootstrap';
 import { createTodo, updateTodo } from '../../../services/users/Todo';
 import '../../../assets/css/user/todo/todo_popup.css';
-import { str2bool, isObjectEmpty } from '../../Helper';
+import { isObjectEmpty } from '../../Helper';
 
 export default class TodoPopup extends Component {
   constructor(props) {
@@ -50,7 +50,7 @@ export default class TodoPopup extends Component {
     const todoForm = this.state.todoForm;
     console.log(todoForm)
     var key = e.target.name;
-    todoForm[key] = str2bool(e.target.value);
+    todoForm[key] = e.target.value;
     this.setState({
       todoForm
     });
