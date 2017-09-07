@@ -14,11 +14,11 @@ export default class Todo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      todoId: props.todoId,
       editObject: {},
       open: false,
       CreateShow: false,
       items: [],
+      todoId: this.props.todoId,
       alert: {
         show: false,
         cancelBtn: true,
@@ -30,11 +30,11 @@ export default class Todo extends Component {
     };
   }
 
-  componentWillMount() {
+  componentWillMount(todoId) {
     var self = this;
-    console.log(self)
-    getItem(self.state.todoId).then(function (response) {
-      self.setState({items: response.data.data.items});
+    getItem(self.state.todoId)
+    .then(function (response) {
+      self.setState({todoId: todoId, items: response.data.data.items});
     })
       .catch(function (error) {
         console.log(error.response);
@@ -153,11 +153,16 @@ export default class Todo extends Component {
           showCancelButton={alert.cancelBtn}
           confirmButtonText={alert.btnText}
           onConfirm={alert.confirmAction}
-          onCancel={() => this.hideDialogueBox()}/> {this.state.CreateShow && (<ItemPopup
+          onCancel={() => this.hideDialogueBox()}
+        /> 
+        {this.state.CreateShow && (
+          <ItemPopup
           showCreate={this.state.CreateShow}
           closeOn={this.CreateClose}
           editObject={this.state.editObject}
-          renderItem={this.renderItem}/>)}
+          renderItem={this.renderItem}
+          />
+        )}
         <Col xs={12} className="filter-wrap p-none">
           <Col xs={12} className="p-none">
             <Button
@@ -175,19 +180,16 @@ export default class Todo extends Component {
               <thead>
                 <tr>
                   <th>Name</th>
-                  <th>Done</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {items.map(item => (
                   <tr key={item.id}>
                     <td>{item.name}</td>
-                    <td className={this.getStatusClass(item.done)}>
-                      {item.done}
-                    </td>
                     <td>
                       <a
-                        className="edit-icon"
+                        className="edit-icon "
                         onClick={() => this.setState({CreateShow: true, editObject: item})}>
                         <img src={require('../../../assets/images/users/item/edit-icon.png')} alt=""/>
                       </a>

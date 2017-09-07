@@ -42,3 +42,13 @@ export function str2bool(value) {
   }
   return value;
 }
+
+
+export function checkStatus(responsePromise) {
+  responsePromise.catch(function(error) {
+    if (error.response.status === 401) {
+      localStorage.clear();
+    }
+  });
+  return responsePromise;
+}

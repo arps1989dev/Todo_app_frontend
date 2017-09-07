@@ -32,7 +32,7 @@ export default class Todo extends Component {
     var self = this;
 
     getTodo().then(function (response) {
-
+      console.log(response)
       if (response.status === 200) {
         self.setState({todos: response.data.data.todos})
       }
@@ -40,6 +40,7 @@ export default class Todo extends Component {
   }
 
   showDialogueBox(id) {
+    debugger
     this.setState({
       alert: {
         objectId: id,

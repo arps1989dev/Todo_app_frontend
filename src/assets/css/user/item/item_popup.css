@@ -52,7 +52,7 @@
 }
 .add-category-submit:hover,
 .add-category-submit:focus{
-    background:#feae37;
+    /* background:#feae37; */
     color: #fff;
     outline: none !important;
     box-shadow: none;

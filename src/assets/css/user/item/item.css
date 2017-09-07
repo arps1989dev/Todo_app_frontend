@@ -62,6 +62,10 @@
 } */
 
 
+.del_butn{
+    position: absolute;
+    right: 653px;
+}
 
 /*common css*/
 

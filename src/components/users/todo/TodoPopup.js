@@ -21,7 +21,8 @@ export default class TodoPopup extends Component {
   getInitialState() {
     const initialState = {
       todoForm: {
-        title: ''
+        title: '',
+        done: 'true',
       }
     };
 
@@ -30,10 +31,11 @@ export default class TodoPopup extends Component {
 
   editContact(todo) {
     var self = this;
-    const { title } = todo;
+    const { title, done } = todo;
     self.setState({
       todoForm: {
-        title: title
+        title: title,
+        done: done
       }
     });
   }
