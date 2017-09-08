@@ -54,12 +54,11 @@ export default class Header extends Component {
             <LinkContainer to="/todos">
               <NavItem eventKey={4}>Todo</NavItem>
             </LinkContainer>
-            <LinkContainer to="/items">
+            {/* <LinkContainer to="/items">
               <NavItem eventKey={4}>Item</NavItem>
-            </LinkContainer>
+            </LinkContainer> */}
           </Nav>
           <Nav pullRight>
-
             <NavItem onClick={event => this.handleLogout(event)}>
               Logout
             </NavItem>

@@ -1,9 +1,12 @@
 import React, {Component} from 'react';
 import {Col, Button, Media} from 'react-bootstrap';
+import {Link} from 'react-router-dom';
 import SweetAlert from 'sweetalert-react';
 
 import {getTodo, deleteTodo} from '../../../services/users/Todo';
 import TodoPopup from './TodoPopup';
+import TodoDetails from './TodoDetails';
+
 import { isObjectEmpty } from '../../Helper';
 
 import '../../../assets/css/user/todo/todo.css';
@@ -162,7 +165,9 @@ export default class Todo extends Component {
                 <Media className="single-contact">
                   <Media.Body className="contact-detail-wrap">
                     <Media.Heading className="contact-name">
+                    <Link to={'/todos/' + todo.slug}>
                       {todo.title}
+                    </Link>
                     </Media.Heading>
                     <div className="contact-detail"></div>
                     <div className="action-wrapper">

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {apiHeader} from '../../components/Helper';
+import {apiHeader, checkStatus} from '../../components/Helper';
 
 export function getTodo() {
   return axios.get(process.env.REACT_APP_API_BASE_URL + 'todos', apiHeader());
@@ -22,4 +22,11 @@ export function createTodo(params) {
     params,
     apiHeader()
   );
+}
+
+export function showTodo(id) {
+  const responsePromise = axios.get(
+    process.env.REACT_APP_API_BASE_URL + 'todos/' + id
+  );
+  return checkStatus(responsePromise);
 }
