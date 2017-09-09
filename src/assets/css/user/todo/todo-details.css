@@ -68,10 +68,16 @@
 }
 .add-photoes-btn:hover,
 .add-photoes-btn:focus {
-  background: #feae37;
-  color: #fff;
+  /* background:grey; */
+  /* color: #fff; */
   outline: none !important;
   box-shadow: none;
+}
+.edit-album-detail{
+  float: right;
+  margin-top: 3px;
+  margin-right: 9px;
+  height: 35px;
 }
 .add-photoes-btn img {
   margin-top: -5px;

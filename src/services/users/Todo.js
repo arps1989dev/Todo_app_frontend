@@ -26,7 +26,8 @@ export function createTodo(params) {
 
 export function showTodo(id) {
   const responsePromise = axios.get(
-    process.env.REACT_APP_API_BASE_URL + 'todos/' + id
+    process.env.REACT_APP_API_BASE_URL + 'todos/' + id,
+    apiHeader()
   );
   return checkStatus(responsePromise);
 }

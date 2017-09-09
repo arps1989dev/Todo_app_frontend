@@ -5,7 +5,7 @@ import SweetAlert from 'sweetalert-react';
 
 import {getTodo, deleteTodo} from '../../../services/users/Todo';
 import TodoPopup from './TodoPopup';
-import TodoDetails from './TodoDetails';
+// import TodoDetails from './TodoDetails';
 
 import { isObjectEmpty } from '../../Helper';
 
@@ -146,6 +146,7 @@ export default class Todo extends Component {
           editObject={this.state.editObject}
           renderTodo={this.renderTodo}
         />}
+        
 
         <Col xs={12} className="filter-wrap p-none">
           <Button
