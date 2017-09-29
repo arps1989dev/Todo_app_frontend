@@ -3,9 +3,9 @@ import {apiHeader, checkStatus} from '../../components/Helper';
 
 
 
-export function createItem(params) {
+export function createItem(params,todoId) {
   const responsePromise = axios.post(
-    process.env.REACT_APP_API_BASE_URL + 'todos/' + params.todo_id + '/items',
+    process.env.REACT_APP_API_BASE_URL + 'todos/' + todoId + '/items',
     params,
     apiHeader());
     return checkStatus(responsePromise);

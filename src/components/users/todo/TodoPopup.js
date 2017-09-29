@@ -31,6 +31,7 @@ export default class TodoPopup extends Component {
 
   editContact(todo) {
     var self = this;
+    console.log(self)
     const { title, done } = todo;
     self.setState({
       todoForm: {

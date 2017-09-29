@@ -35,13 +35,16 @@ export default class TodoDetails extends Component {
     };
   }
 
-  componentWillMount(todoId) {
+  componentWillMount() {
     var self = this;
+    console.log(self.props.todoId , "HMMM" )
+    // debugger
+
     showTodo(self.state.todoSlug).then(function (response) {
       // console.log(response)
       var data = response.data;
       if (response.status === 200) {
-        console.log(response.data.data.todo)
+        console.log(response.data.data.todo, "TODO")
         self.setState({todo: data.data.todo});
         }
       })
@@ -49,12 +52,13 @@ export default class TodoDetails extends Component {
         console.log(error.response);
       });
 
-      // debugger
-    getItem(self.state.todoId)
-    .then(function (response) {
-      self.setState({todoId: todoId, items: response.data.data.items});
-    })
-    .catch(function (error) {
+      getItem(this.props.todoId)
+      .then(function (response) {
+        debugger
+        self.setState({todoId: this.props.todoId, items: response.data.data.items});
+      })
+      .catch(function (error) {
+        // debugger
       console.log(error.response);
     });
   }
@@ -162,7 +166,7 @@ export default class TodoDetails extends Component {
   }
 
   render() {
-    const {todo, alert} = this.state;
+    const { alert} = this.state;
     // const items = todo.items;
     return (
       <div>
@@ -194,7 +198,7 @@ export default class TodoDetails extends Component {
               </Button>
               <Button
                 className="edit-album-detail"
-                onClick={() => this.setState({showCreatePopup: true})}>
+                onClick={() => this.setState({CreateShow: true})}>
                 <img src={require('../../../assets/images/users/todo/edit-icon.png')} alt=""/>{' '}
 
               </Button>

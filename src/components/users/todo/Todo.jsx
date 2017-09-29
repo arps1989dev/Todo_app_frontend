@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Col, Button, Media} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import SweetAlert from 'sweetalert-react';
+// import PropTypes from 'prop-types';
 
 import {getTodo, deleteTodo} from '../../../services/users/Todo';
 import TodoPopup from './TodoPopup';
@@ -43,7 +44,7 @@ export default class Todo extends Component {
   }
 
   showDialogueBox(id) {
-    debugger
+    // debugger
     this.setState({
       alert: {
         objectId: id,
