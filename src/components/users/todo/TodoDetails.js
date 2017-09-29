@@ -37,14 +37,14 @@ export default class TodoDetails extends Component {
 
   componentWillMount() {
     var self = this;
-    console.log(self.props.todoId , "HMMM" )
+    console.log(self.state.todoSlug , "hiii" )
     // debugger
 
     showTodo(self.state.todoSlug).then(function (response) {
       // console.log(response)
       var data = response.data;
       if (response.status === 200) {
-        console.log(response.data.data.todo, "TODO")
+        console.log(response.data.data.todo)
         self.setState({todo: data.data.todo});
         }
       })
@@ -52,13 +52,11 @@ export default class TodoDetails extends Component {
         console.log(error.response);
       });
 
-      getItem(this.props.todoId)
+      getItem(self.state.todoSlug)
       .then(function (response) {
-        debugger
-        self.setState({todoId: this.props.todoId, items: response.data.data.items});
+        self.setState({todoSlug: self.state.todoSlug, items: response.data.data.items});
       })
       .catch(function (error) {
-        // debugger
       console.log(error.response);
     });
   }
