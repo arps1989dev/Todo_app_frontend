@@ -3,16 +3,15 @@ import {apiHeader, checkStatus} from '../../components/Helper';
 
 
 
-export function createItem(params,todoId) {
-  const responsePromise = axios.post(
-    process.env.REACT_APP_API_BASE_URL + 'todos/' + todoId + '/items',
+export function createItem(params, todoId) {
+  debugger
+  const responsePromise = axios.post(process.env.REACT_APP_API_BASE_URL + 'todos/' + todoId + '/items',
     params,
     apiHeader());
     return checkStatus(responsePromise);
 }
 
 export function getItem(todoId) {
-  // debugger
   const responsePromise = axios.get(process.env.REACT_APP_API_BASE_URL + 'todos/' + todoId + '/items',
   apiHeader());
   return checkStatus(responsePromise);

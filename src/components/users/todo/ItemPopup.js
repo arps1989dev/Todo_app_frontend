@@ -59,23 +59,27 @@ export default class ItemPopup extends Component {
     });
   }
 
-  handleSubmit(e,id) {
+  handleSubmit(e) {
+    debugger
     var self = this;
-    let data = (this.state.ItemForm);
     var callItemApi = () => {};
     if (isObjectEmpty(self.props.editObject)) {
-      var createParams = data;
+      var createParams = { 
+        todoId: self.props.itemObject.id,
+        item: self.state.itemForm 
+      };
       callItemApi = createItem(createParams);
     } else {
       var editParams = {
         id: self.props.editObject.id,
-        ItemForm: data
+        itemForm: { item: self.state.itemForm }
       };
-      callItemApi = updateItem(editParams,id);
+      callItemApi = updateItem(editParams);
     }
 
     callItemApi
       .then(function(response) {
+        console.log(response)
         self.handelResponse(response);
       })
       .catch(function(error) {
@@ -86,13 +90,16 @@ export default class ItemPopup extends Component {
   handelResponse(response) {
     var responseData = response.data;
     if (response.status === 201) {
+      debugger
       this.resetitemForm();
       this.props.renderItem(
         responseData.data.item,
+        console.log(responseData.data.item, "Res DATA"),
         isObjectEmpty(this.props.editObject) ? 'insert' : 'replace'
       );
       this.props.closeOn();
     } else {
+      debugger
       console.log(responseData.errors);
     }
   }

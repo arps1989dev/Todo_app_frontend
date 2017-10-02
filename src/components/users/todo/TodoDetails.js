@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 // import {Link} from 'react-router-dom';
-import {Col, Button} from 'react-bootstrap';
+import {Col, Button, Table} from 'react-bootstrap';
 import SweetAlert from 'sweetalert-react';
 import {showTodo} from '../../../services/users/Todo';
 import {getItem, deleteItem} from '../../../services/users/Item';
@@ -16,6 +16,7 @@ export default class TodoDetails extends Component {
     this.state = {
       editObject: {},
       itempopup: false,
+      itemObject:{},
       showCreatePopup: false,
       open: false,
       CreateShow: false,
@@ -34,26 +35,26 @@ export default class TodoDetails extends Component {
       }
     };
   }
-
+  
   componentWillMount() {
     var self = this;
     console.log(self.state.todoSlug , "hiii" )
-    // debugger
-
+    
     showTodo(self.state.todoSlug).then(function (response) {
-      // console.log(response)
+      console.log(response , "show TODO")
       var data = response.data;
       if (response.status === 200) {
         console.log(response.data.data.todo)
         self.setState({todo: data.data.todo});
-        }
-      })
-      .catch(function (error) {
-        console.log(error.response);
-      });
-
-      getItem(self.state.todoSlug)
-      .then(function (response) {
+      }
+    })
+    .catch(function (error) {
+      console.log(error.response);
+    });
+    
+    getItem(self.state.todoSlug)
+    .then(function (response) {      
+      console.log(response , "response getItem" )
         self.setState({todoSlug: self.state.todoSlug, items: response.data.data.items});
       })
       .catch(function (error) {
@@ -145,7 +146,7 @@ export default class TodoDetails extends Component {
       .state
       .items
       .slice();
-
+    debugger
     if (action === 'insert') {
       newitems.splice(0, 0, item, id);
     } else if (action === 'replace' && !isObjectEmpty(this.state.editObject)) {
@@ -164,8 +165,8 @@ export default class TodoDetails extends Component {
   }
 
   render() {
-    const { alert} = this.state;
-    // const items = todo.items;
+    const {alert, items} = this.state;
+    
     return (
       <div>
         <SweetAlert
@@ -183,6 +184,7 @@ export default class TodoDetails extends Component {
           closeOn={this.CreateClose}
           editObject={this.state.editObject}
           renderItem={this.renderItem}
+          itemObject={this.state.itemObject}
           />
         )}
         <Col xs={12} className="album-details-main-wrap">
@@ -194,27 +196,51 @@ export default class TodoDetails extends Component {
                 onClick={() => this.setState({CreateShow: true})}>
                 Add Item
               </Button>
-              <Button
-                className="edit-album-detail"
-                onClick={() => this.setState({CreateShow: true})}>
-                <img src={require('../../../assets/images/users/todo/edit-icon.png')} alt=""/>{' '}
-
-              </Button>
-            </Col>
-
-            <Col xs={12} sm={12} md={8} lg={9} className="photo-selection-wrap">
-
-              {/* {todo.items && todo
-              .items
-              .map((item, index) => (
-                <Col xs={6} sm={4} md={4} lg={3} key={item.id}>
-                  <Col xs={12} className="album-photo-thumbs p-none">
-                    {item.name}
-
-                  </Col>
-
-                </Col>
-              ))} */}
+            </Col>            
+            <Col xs={12} className="p-none">
+              <div className="categories-table-wrap">
+                <Table responsive className="categories-table">
+                  <thead>
+                    <tr>
+                      <th>Items Name</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {items.map((item, index) => (
+                      <tr key={item.id}>
+                        <td>{item.name}</td>
+                        <td>
+                          <a
+                            className="edit-icon"
+                            onClick={() =>
+                              this.setState({
+                                CreateShow: true,
+                                editObject: item
+                              })}
+                          >
+                          <img src={require('../../../assets/images/users/todo/edit-icon.png')} alt=""/>
+                          </a>
+                          {/* <img
+                            className="seprator"
+                            src={require('../../../assets/images/admin/category/seprator.png')}
+                            alt=""
+                          />
+                          <a
+                            className="del_butn"
+                            onClick={event => this.showDialogueBox(category.id)}
+                          >
+                            <img
+                              src={require('../../../assets/images/admin/category/delete-icon.png')}
+                              alt=""
+                            />
+                          </a> */}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              </div>
             </Col>
           </Col>
         </Col>
