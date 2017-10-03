@@ -3,13 +3,12 @@ import {
   Col,
   Button,
   Modal,
-  Radio,
   ControlLabel,
   FormGroup,
   FormControl
 } from 'react-bootstrap';
 import { createItem, updateItem } from '../../../services/users/Item';
-import { isObjectEmpty } from '../../Helper';
+import { str2bool, isObjectEmpty } from '../../Helper';
 import '../../../assets/css/user/item/item_popup.css';
 
 export default class ItemPopup extends Component {
@@ -24,11 +23,76 @@ export default class ItemPopup extends Component {
       itemForm: {
         name: '',
         status: 'active'
-      }
+      },
+      errors: {}
     };
 
     return initialState;
   }
+
+
+  handleChange(e) {
+    const itemForm = this.state.itemForm;
+    var key = e.target.name;
+    itemForm[key] = str2bool(e.target.value);
+    this.setState({
+      itemForm
+    });
+  }
+
+
+  handleSubmit(e) {      
+    var self = this;
+    var callItemApi = () => {};
+    if (isObjectEmpty(self.props.editObject)) {
+      var createParams = { 
+        todoId: self.props.itemObject.todo.id,
+        item: self.state.itemForm 
+      };
+      callItemApi = createItem(createParams);
+    } else {
+      var editParams = {
+        todoId: self.props.editObject.todo.slug,
+        id: self.props.editObject.id,        
+        itemForm: { item: self.state.itemForm }
+      };
+      debugger
+      callItemApi = updateItem(editParams);
+    }
+
+    callItemApi
+      .then(function(response) {
+        console.log(response)
+        self.handelResponse(response);
+      })
+      .catch(function(error) {
+        console.log(error.response);
+      });
+  }
+
+
+
+  handelResponse(response) {
+    var responseData = response.data;
+    if (response.status === 201) {
+      debugger
+      this.resetitemForm();
+      this.props.renderItem(
+        responseData.data.item,
+        console.log(responseData.data.item, "Res DATA"),
+        isObjectEmpty(this.props.editObject) ? 'insert' : 'replace'
+      );
+      this.props.closeOn();
+    } else {      
+      console.log(responseData.errors);
+    }
+  }
+
+
+  resetitemForm() {
+    this.setState({ itemForm: this.getInitialState().itemForm });
+  }
+
 
   editItem(item) {
     var self = this;
@@ -49,65 +113,11 @@ export default class ItemPopup extends Component {
     }
   }
 
-  handleChange(e) {
-    const itemForm = this.state.itemForm;
-    console.log(itemForm)
-    var key = e.target.name;
-    itemForm[key] = e.target.value;
-    this.setState({
-      itemForm
-    });
+
+  updateState(element) {
+    this.setState({ value: element });
   }
 
-  handleSubmit(e) {
-    debugger
-    var self = this;
-    var callItemApi = () => {};
-    if (isObjectEmpty(self.props.editObject)) {
-      var createParams = { 
-        todoId: self.props.itemObject.id,
-        item: self.state.itemForm 
-      };
-      callItemApi = createItem(createParams);
-    } else {
-      var editParams = {
-        id: self.props.editObject.id,
-        itemForm: { item: self.state.itemForm }
-      };
-      callItemApi = updateItem(editParams);
-    }
-
-    callItemApi
-      .then(function(response) {
-        console.log(response)
-        self.handelResponse(response);
-      })
-      .catch(function(error) {
-        console.log(error.response);
-      });
-  }
-
-  handelResponse(response) {
-    var responseData = response.data;
-    if (response.status === 201) {
-      debugger
-      this.resetitemForm();
-      this.props.renderItem(
-        responseData.data.item,
-        console.log(responseData.data.item, "Res DATA"),
-        isObjectEmpty(this.props.editObject) ? 'insert' : 'replace'
-      );
-      this.props.closeOn();
-    } else {
-      debugger
-      console.log(responseData.errors);
-    }
-  }
-
-
-  resetitemForm() {
-    this.setState({ itemForm: this.getInitialState().itemForm });
-  }
 
   render() {
     const { itemForm } = this.state;
@@ -154,12 +164,12 @@ export default class ItemPopup extends Component {
                 />
               </FormGroup>
 
-              <FormGroup className="custom-form-group">
-              <ControlLabel className="custom-form-control-label">
-                Activity level
-              </ControlLabel>
-              <br/>
-              <span className="custom-radio-wrap">
+              {/* <FormGroup className="custom-form-group"> */}
+                {/* <ControlLabel className="custom-form-control-label">
+                  Activity level
+                </ControlLabel> */}
+              {/* <br/> */}
+              {/* <span className="custom-radio-wrap">
                 <Radio 
                   name="status" 
                   inline 
@@ -185,8 +195,8 @@ export default class ItemPopup extends Component {
                       <div className="inside"></div>
                   </div>
                   </Radio>
-              </span>
-          </FormGroup>
+              </span> */}
+          {/* </FormGroup> */}
               <Button
                 className="btn btn-orange add-category-submit"
                 onClick={event => this.handleSubmit(event)}

@@ -3,9 +3,9 @@ import {apiHeader, checkStatus} from '../../components/Helper';
 
 
 
-export function createItem(params, todoId) {
+export function createItem(params) {
   debugger
-  const responsePromise = axios.post(process.env.REACT_APP_API_BASE_URL + 'todos/' + todoId + '/items',
+  const responsePromise = axios.post(process.env.REACT_APP_API_BASE_URL + 'todos/' + params.todoId + '/items',
     params,
     apiHeader());
     return checkStatus(responsePromise);
@@ -23,9 +23,10 @@ export function deleteItem(todoId, id) {
   return checkStatus(responsePromise);
 }
 
-export function updateItem(params,todo_id, id) {
+export function updateItem(params) {
+  debugger
   const responsePromise = axios.patch(
-    process.env.REACT_APP_API_BASE_URL + 'todos/' + todo_id + '/items/' + id, 
+    process.env.REACT_APP_API_BASE_URL + 'todos/' + params.todoId + '/items/' + params.id, 
     params, 
     apiHeader()
   );
