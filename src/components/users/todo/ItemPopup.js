@@ -8,7 +8,7 @@ import {
   FormControl
 } from 'react-bootstrap';
 import { createItem, updateItem } from '../../../services/users/Item';
-import { str2bool, isObjectEmpty } from '../../Helper';
+import { isObjectEmpty } from '../../Helper';
 import '../../../assets/css/user/item/item_popup.css';
 
 export default class ItemPopup extends Component {
@@ -21,8 +21,7 @@ export default class ItemPopup extends Component {
   getInitialState() {
     const initialState = {
       itemForm: {
-        name: '',
-        status: 'active'
+        name: ''
       },
       errors: {}
     };
@@ -30,16 +29,14 @@ export default class ItemPopup extends Component {
     return initialState;
   }
 
-
   handleChange(e) {
     const itemForm = this.state.itemForm;
     var key = e.target.name;
-    itemForm[key] = str2bool(e.target.value);
+    itemForm[key] = e.target.value;
     this.setState({
       itemForm
     });
   }
-
 
   handleSubmit(e) {      
     var self = this;
@@ -53,10 +50,9 @@ export default class ItemPopup extends Component {
     } else {
       var editParams = {
         todoId: self.props.editObject.todo.slug,
-        id: self.props.editObject.id,        
+        id: self.props.editObject.id,      
         itemForm: { item: self.state.itemForm }
       };
-      debugger
       callItemApi = updateItem(editParams);
     }
 
@@ -70,12 +66,9 @@ export default class ItemPopup extends Component {
       });
   }
 
-
-
   handelResponse(response) {
     var responseData = response.data;
-    if (response.status === 201) {
-      debugger
+    if (response.status === 201) {      
       this.resetitemForm();
       this.props.renderItem(
         responseData.data.item,
@@ -96,11 +89,10 @@ export default class ItemPopup extends Component {
 
   editItem(item) {
     var self = this;
-    const { name, status } = item;
+    const { name } = item;
     self.setState({
       itemForm: {
-        name: name,
-        status: status
+        name: name
       }
     });
   }
@@ -164,39 +156,6 @@ export default class ItemPopup extends Component {
                 />
               </FormGroup>
 
-              {/* <FormGroup className="custom-form-group"> */}
-                {/* <ControlLabel className="custom-form-control-label">
-                  Activity level
-                </ControlLabel> */}
-              {/* <br/> */}
-              {/* <span className="custom-radio-wrap">
-                <Radio 
-                  name="status" 
-                  inline 
-                  value="active"
-                  checked={itemForm.status === 'active'}
-                  onChange={this.handleChange.bind(this)}>
-                  Active 
-                  <div className="check">
-                      <div className="inside"></div>
-                  </div>
-                </Radio>
-              </span>  
-              {' '}
-              <span className="custom-radio-wrap">
-                <Radio 
-                  name="status" 
-                  inline 
-                  value="inactive"
-                  checked={itemForm.status === 'inactive'}
-                  onChange={this.handleChange.bind(this)}>
-                  Inactive
-                  <div className="check">
-                      <div className="inside"></div>
-                  </div>
-                  </Radio>
-              </span> */}
-          {/* </FormGroup> */}
               <Button
                 className="btn btn-orange add-category-submit"
                 onClick={event => this.handleSubmit(event)}

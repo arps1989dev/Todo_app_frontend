@@ -61,10 +61,7 @@ export default class Login extends Component {
     if (response.status === 200) {
       console.log(response)
       localStorage.setItem('AUTH_TOKEN', response.data.data.token.access_token);
-      localStorage.setItem(
-        'CURRENT_USER',
-        JSON.stringify(response.data.data.user)
-      );
+      localStorage.setItem('CURRENT_USER', JSON.stringify(response.data.data.user));
       this.setState({ redirectToReferrer: true });
     } else {
       console.log('Invalid email and password');

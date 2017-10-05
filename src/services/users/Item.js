@@ -24,7 +24,6 @@ export function deleteItem(todoId, id) {
 }
 
 export function updateItem(params) {
-  debugger
   const responsePromise = axios.patch(
     process.env.REACT_APP_API_BASE_URL + 'todos/' + params.todoId + '/items/' + params.id, 
     params, 
